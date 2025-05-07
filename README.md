@@ -1,12 +1,12 @@
-# 🧠 Sentiment Analysis API using Ollama & LLaMA3
+# Sentiment Analysis API using Ollama & LLaMA3.2 3B
 
-This project is a simple, self-hosted sentiment analysis REST API that uses an open-source LLM (LLaMA3 via Ollama) and exposes a web interface to input text and analyze its sentiment.
+This project is a simple, self-hosted sentiment analysis REST API that uses an open-source LLM (LLaMA3 via Ollama) and has a basic web interface to input text in Arabic and English and analyze its sentiment.
 
 ---
 
-## 🚀 Features
+## Features
 
-- Uses **Ollama** with the **LLaMA3 3B** model
+- Uses **Ollama** with the **LLaMA3.2 3B** model
 - Accepts text input in English or Arabic
 - Returns sentiment as: `Positive`, `Neutral`, or `Negative`
 - Simple web interface (HTML form)
@@ -14,14 +14,17 @@ This project is a simple, self-hosted sentiment analysis REST API that uses an o
 
 ---
 
-## 📦 Requirements
+## Requirements
 
 - Docker installed → [Install Docker](https://docs.docker.com/get-docker/)
-- Docker Compose → comes with Docker Desktop or can be installed separately
+- Docker Compose → comes with Docker Desktop or can be installed separately using:
+```bash
+sudo apt-get install docker-compose-plugin ##for linux
+```
 
 ---
 
-## 🛠️ Setup Instructions
+## Setup Instructions
 
 ### 1. Clone the repository
 
@@ -44,7 +47,6 @@ docker exec -it ollama ollama pull llama3.2:3b
 ### 4. Build and run the sentiment API
 
 ```bash
-#docker rm -f ollama
 docker-compose up --build
 ```
 This starts sentiment-api at http://localhost:8000/
@@ -66,16 +68,24 @@ http://localhost:8000/
 ```bash
 curl -X POST http://localhost:8000/generate \
      -H "Content-Type: application/json" \
-     -d '{"prompt": "I love this product!"}'
+     -d '{"prompt": "تواص العميل مع خدمة العملاء لأنه كان لدبه مشكلة مع جهازه وهذهالمشكلة لم تعالج حتى بعد عدة محاولات."}'
 ```
 
 ###  Model & Hardware Considerations
 
 - Model Used: llama3.2:3b via Ollama
+    - Ollama is an open-source framework that is easy use and is continously maintained and updated as of the dat of this task.
+    - It is easy to setup and docker which allows creating a ready-to-use containter for projects. It has light docker images, and it is optimized for use on laptops and small servers.
+    - It supports most open-source LLMs, and it optimizes the usage of quantized models on CPU.
+    - It has support to run models on both GPU & CPU.
+
+    - Llama3.2 3B is a model that is trained on Meta's multi-lingual dataset therefore it contains Arabic and English. Its size offers a balance between performance and usability on mulltiple hardwares.
+    - Llama3 models have shown great perfromance on various NLP tasks.
 
 - Language Support: Good for both English and Arabic
 
-- Inference: Runs reasonably on CPU but faster with GPU
+- Inference: Runs reasonably on CPU but faster with GPU. Current setup is made to run on CPU.
+    - With more resources, I would have used Llama 3.2 8B model which has shown much better performance pn various Arabic (https://huggingface.co/blog/leaderboard-arabic) and English datasets.
 
 ### Project Structure
 ```php
@@ -86,6 +96,6 @@ sentiment-api/
 │   │   └── index.html       # Web interface
 │   └── requirements.txt
 ├── Dockerfile               # Builds sentiment-api container
-├── docker-compose.yml       # Orchestrates ollama + API
+├── docker-compose.yml       
 └── README.md
 
