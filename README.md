@@ -68,7 +68,7 @@ http://localhost:8000/
 ```bash
 curl -X POST http://localhost:8000/generate \
      -H "Content-Type: application/json" \
-     -d '{"prompt": "تواص العميل مع خدمة العملاء لأنه كان لدبه مشكلة مع جهازه وهذهالمشكلة لم تعالج حتى بعد عدة محاولات."}'
+     -d '{"prompt": "تواصل العميل مع خدمة العملاء لأنه كان لدبه مشكلة مع جهازه وهذه المشكلة لم تعالج حتى بعد عدة محاولات."}'
 ```
 
 ###  Model & Hardware Considerations
