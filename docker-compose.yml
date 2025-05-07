@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # ollama:
+  # image: ollama/ollama
+  # container_name: ollama-sentiment
+  # ports:
+  #   - "11434:11434"
+  # volumes:
+  #   - ollama:/root/.ollama
+       #- ollama_data:/root/.ollama
+       # restart: unless-stopped
+  sentiment-api:
+    build: .
+    container_name: sentiment-api
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434/api/generate
+        #depends_on:
+      #   - ollama
+
+        #volumes:
+  #ollama_data:
+  # external: true
+  #ollama:
+  # external: true
+

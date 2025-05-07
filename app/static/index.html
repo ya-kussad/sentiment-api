@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sentiment Analysis</title>
+</head>
+<body>
+  <h2>Enter a prompt for sentiment analysis</h2>
+  <form id="sentiment-form">
+    <textarea name="prompt" id="prompt" rows="4" cols="50" placeholder="Type something..."></textarea><br>
+    <button type="submit">Analyze</button>
+    <button type="button" id="clear-button">Clear</button>
+  </form>
+  <h3>Result:</h3>
+  <pre id="result"></pre>
+
+  <script>
+    const promptInput = document.getElementById('prompt');
+    const resultDisplay = document.getElementById('result');
+
+    document.getElementById('sentiment-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const prompt = promptInput.value.trim();
+      if (!prompt) {
+        resultDisplay.textContent = "Please enter a prompt.";
+        return;
+      }
+
+      const response = await fetch('/generate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await response.json();
+
+      if (data.sentiment) {
+	      resultDisplay.textContent = data.sentiment;
+      } else if (data.error) {
+        resultDisplay.textContent = `Error: ${data.error}`;
+      } else {
+        resultDisplay.textContent = "Unexpected response.";
+      }
+
+    });
+
+    document.getElementById('clear-button').addEventListener('click', () => {
+      promptInput.value = '';
+      resultDisplay.textContent = '';
+    });
+  </script>
+</body>
+</html>
+
